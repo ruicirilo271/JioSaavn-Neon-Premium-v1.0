@@ -1,0 +1,513 @@
+/* ============================================================
+   🎵 STYLE.CSS — SPOTIFY NEON MINIMAL PREMIUM (FINAL)
+   ============================================================ */
+
+:root {
+    --neon: #00e5ff;
+    --neon-soft: #00e5ff77;
+    --bg: #0a0f1d;
+    --glass: rgba(255, 255, 255, 0.04);
+    --text: #d4eaff;
+    --text-soft: #8faecf;
+    --border: #1f2a3a;
+    --transition: 0.25s ease;
+}
+
+/* ========================= GLOBAL ========================= */
+
+body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    font-family: "Inter", sans-serif;
+    color: var(--text);
+}
+
+.container {
+    width: 92%;
+    max-width: 900px;
+    margin: auto;
+    padding-bottom: 170px; /* espaço para o player */
+}
+
+/* ========================= HEADERS ========================= */
+
+h1 {
+    text-align: center;
+    color: var(--neon);
+    font-weight: 600;
+    margin-top: 30px;
+    text-shadow: 0 0 12px var(--neon);
+}
+
+/* ========================= SEARCH ========================= */
+
+.search-box {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.search-box input {
+    width: 65%;
+    padding: 14px;
+    font-size: 17px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #0f172a;
+    color: var(--neon);
+    outline: none;
+    transition: var(--transition);
+}
+
+.search-box input:focus {
+    border-color: var(--neon);
+    box-shadow: 0 0 14px var(--neon-soft);
+}
+
+/* ========================= BUTTONS ========================= */
+
+button,
+.btn,
+.play-all,
+.search-box button,
+.track button {
+    all: unset;
+    padding: 10px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    border: 1px solid var(--neon);
+    color: var(--neon);
+    background: var(--glass);
+    transition: var(--transition);
+}
+
+button:hover,
+.btn:hover,
+.play-all:hover,
+.search-box button:hover,
+.track button:hover {
+    background: var(--neon);
+    color: #002029;
+    box-shadow: 0 0 18px var(--neon);
+}
+
+/* ========================= GRID ========================= */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 22px;
+}
+
+.card {
+    background: var(--glass);
+    padding: 12px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    text-align: center;
+    transition: var(--transition);
+}
+
+.card:hover {
+    border-color: var(--neon);
+    box-shadow: 0 0 16px var(--neon-soft);
+    transform: translateY(-4px);
+}
+
+.cover {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+/* ========================= ALBUM HEADER ========================= */
+
+.album-header {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.album-cover-round {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 25px var(--neon), 0 0 60px var(--neon-soft);
+    margin-bottom: 15px;
+}
+
+/* ========================= TRACK LIST ========================= */
+
+#tracks {
+    list-style: none;
+    padding: 0;
+    margin-top: 30px;
+}
+
+.track {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px;
+
+    background: var(--glass);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+
+    transition: var(--transition);
+}
+
+.track:hover {
+    border-color: var(--neon);
+    box-shadow: 0 0 12px var(--neon-soft);
+}
+
+.track-cover {
+    width: 55px !important;
+    height: 55px !important;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* ========================= PLAYER SPOTIFY FULL-WIDTH ========================= */
+
+#spotify-player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 90px;
+    width: 100%;
+    background: rgba(10, 15, 30, 0.85);
+    border-top: 2px solid var(--neon);
+
+    backdrop-filter: blur(12px);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 12px 25px;
+
+    box-shadow: 0 -3px 30px var(--neon-soft);
+    z-index: 99999;
+}
+
+/* ========================= LEFT SIDE ========================= */
+
+.sp-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 240px;
+}
+
+.sp-cover-round {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 18px var(--neon-soft);
+}
+
+/* Equalizador médio */
+
+#eqCanvas {
+    width: 80px;
+    height: 55px;
+    border-radius: 8px;
+    background: #0f172a;
+    border: 1px solid var(--border);
+    box-shadow: inset 0 0 12px #0f172a;
+}
+
+/* Song info */
+
+.sp-songinfo h4 {
+    margin: 0;
+    font-size: 17px;
+    color: var(--neon);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 170px;
+}
+
+.sp-songinfo span {
+    font-size: 13px;
+    color: var(--text-soft);
+}
+
+/* ========================= CENTER ========================= */
+
+.sp-center {
+    width: 35%;
+    min-width: 250px;
+    text-align: center;
+}
+
+.sp-controls {
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+}
+
+/* Botões flutuantes estilo iOS */
+.sp-btn {
+    all: unset;
+    cursor: pointer;
+    font-size: 28px;
+
+    padding: 8px 12px;
+    border-radius: 50%;
+
+    color: var(--neon);
+    border: 2px solid var(--border);
+
+    transition: var(--transition);
+}
+
+.sp-btn:hover {
+    border-color: var(--neon);
+    box-shadow: 0 0 16px var(--neon-soft);
+}
+
+.sp-play {
+    font-size: 36px !important;
+    border-color: var(--neon);
+    box-shadow: 0 0 22px var(--neon-soft);
+}
+
+/* Progress bar */
+
+.sp-progress {
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+#sp-bar {
+    flex-grow: 1;
+    height: 5px;
+    border-radius: 5px;
+    background: var(--border);
+    -webkit-appearance: none;
+}
+
+#sp-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--neon);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--neon);
+}
+
+/* ========================= RIGHT ========================= */
+
+.sp-right {
+    width: 130px;
+    min-width: 130px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#volIcon {
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--neon);
+    text-shadow: 0 0 10px var(--neon);
+    transition: var(--transition);
+}
+
+#volIcon:hover {
+    transform: scale(1.15);
+}
+
+#sp-volume {
+    width: 75px;
+    height: 5px;
+    background: var(--border);
+    border-radius: 5px;
+    -webkit-appearance: none;
+}
+
+#sp-volume::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--neon);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--neon);
+}
+
+/* ========================= MOBILE ========================= */
+
+@media (max-width: 700px) {
+
+    #spotify-player {
+        height: 140px;
+        padding-bottom: 25px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .sp-center {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .sp-right {
+        width: 85px;
+        min-width: 85px;
+    }
+
+    #sp-volume {
+        width: 55px;
+    }
+}
+/* ============================================================
+   MENU PREMIUM (SPOTIFY MINIMAL)
+   ============================================================ */
+
+.top-menu {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    padding: 15px 0;
+    background: rgba(10, 15, 30, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid var(--neon);
+    box-shadow: 0 2px 20px var(--neon-soft);
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+}
+
+.top-menu button {
+    all: unset;
+    cursor: pointer;
+
+    padding: 10px 16px;
+    border-radius: 12px;
+
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--neon);
+
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    transition: var(--transition);
+}
+
+.top-menu button:hover {
+    background: var(--neon);
+    color: #002029;
+    box-shadow: 0 0 16px var(--neon);
+    transform: translateY(-2px);
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .top-menu {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 12px 4px;
+    }
+
+    .top-menu button {
+        font-size: 14px;
+        padding: 8px 14px;
+    }
+}
+
+/* ============================================================
+   LISTA DO TOP GLOBAL
+   ============================================================ */
+
+.chart-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 25px;
+}
+
+.chart-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    background: var(--glass);
+    border: 1px solid var(--border);
+    padding: 12px;
+    border-radius: 12px;
+    transition: var(--transition);
+}
+
+.chart-item:hover {
+    border-color: var(--neon);
+    box-shadow: 0 0 12px var(--neon-soft);
+}
+
+.chart-number {
+    font-size: 20px;
+    width: 28px;
+    color: var(--neon);
+    text-shadow: 0 0 8px var(--neon-soft);
+    text-align: right;
+}
+
+.chart-cover {
+    width: 58px;
+    height: 58px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 0 12px var(--neon-soft);
+}
+
+.chart-info {
+    flex-grow: 1;
+}
+
+.chart-info strong {
+    color: var(--text);
+    font-size: 16px;
+}
+
+.chart-info span {
+    color: var(--text-soft);
+    font-size: 14px;
+}
+
+.chart-play {
+    all: unset;
+    cursor: pointer;
+    font-size: 20px;
+    color: var(--neon);
+
+    padding: 8px 12px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+
+    transition: var(--transition);
+}
+
+.chart-play:hover {
+    border-color: var(--neon);
+    box-shadow: 0 0 14px var(--neon-soft);
+    color: #002029;
+    background: var(--neon);
+}
+
+
+
+

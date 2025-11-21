@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>JioSaavn Neon Premium</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<!-- ============================================================
+     MENU PREMIUM (SPOTIFY STYLE)
+============================================================ -->
+<nav class="top-menu">
+    <button onclick="location.href='/'">🔍 Procurar</button>
+    <button onclick="openSearchAlbums()">📀 Álbuns</button>
+    <button onclick="openSearchPlaylists()">🎧 Playlists</button>
+    <button onclick="location.href='/charts/global'">📊 Top Global</button>
+</nav>
+
+
+
+<div class="container">
+
+    <h1>🎵 JioSaavn Neon Premium</h1>
+
+    <div class="search-box">
+        <input id="query" placeholder="Pesquisar álbuns ou playlists…">
+        <button onclick="searchType('albums')">Álbuns</button>
+        <button onclick="searchType('playlists')">Playlists</button>
+    </div>
+
+    <div id="results" class="grid"></div>
+
+</div>
+
+<script src="/static/script.js"></script>
+
+<script>
+function openSearchAlbums() {
+    document.getElementById("query").value = "";
+    searchType('albums');
+}
+
+function openSearchPlaylists() {
+    document.getElementById("query").value = "";
+    searchType('playlists');
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+

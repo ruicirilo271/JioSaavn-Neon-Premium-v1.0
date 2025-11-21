@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Top 50 Global</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <a class="back" href="/">⬅ Voltar</a>
+
+    <h1>🌍 Top 50 Global</h1>
+
+    <div class="center">
+        <button class="play-all" onclick="playTopGlobalAll()">
+            ▶ OUVIR TUDO
+        </button>
+    </div>
+
+    <ul id="chartList" class="chart-list"></ul>
+
+</div>
+
+{% include 'spotify_player.html' %}
+
+<script src="/static/script.js"></script>
+<script src="/static/player.js"></script>
+
+<script>
+/* ============================================================
+   CARREGAR TOP 50 GLOBAL + RENDERIZAR
+   ============================================================ */
+
+document.addEventListener("DOMContentLoaded", () => {
+    fetch("/api/charts/global")
+        .then(r => r.json())
+        .then(data => {
+            if (!data.success) {
+                document.getElementById("chartList").innerHTML =
+                    "<p>Erro ao carregar Top Global.</p>";
+                return;
+            }
+
+            renderTopGlobal(data.songs);
+        });
+});
+
+let TOP_GLOBAL = [];
+
+
+/* ============================================================
+   DESENHAR A LISTA TOP GLOBAL
+   ============================================================ */
+function renderTopGlobal(list) {
+    const ul = document.getElementById("chartList");
+    ul.innerHTML = "";
+    TOP_GLOBAL = list;
+
+    list.forEach((song, i) => {
+        const li = document.createElement("li");
+        li.className = "chart-item";
+
+        li.innerHTML = `
+            <div class="chart-number">${i + 1}</div>
+            <img src="${song.cover}" class="chart-cover">
+            <div class="chart-info">
+                <strong>${song.track}</strong><br>
+                <span>${song.artist}</span>
+            </div>
+            <button class="chart-play" onclick="playTopGlobal(${i})">
+                ▶
+            </button>
+        `;
+
+        ul.appendChild(li);
+    });
+}
+
+
+/* ============================================================
+   TOCAR UMA FAIXA DO TOP GLOBAL
+   ============================================================ */
+function playTopGlobal(i) {
+    const s = TOP_GLOBAL[i];
+
+    fetch(`/api/to_saavn?track=${encodeURIComponent(s.track)}&artist=${encodeURIComponent(s.artist)}`)
+        .then(r => r.json())
+        .then(conv => {
+            if (!conv.success) {
+                alert("Música não encontrada no Saavn.");
+                return;
+            }
+
+            // Criar fila com apenas esta música
+            queue = [{
+                title: conv.title,
+                artist: conv.artist,
+                url: conv.mp3,
+                cover: conv.cover
+            }];
+
+            loadSong(0);
+        });
+}
+
+
+/* ============================================================
+   OUVIR TUDO — TOP GLOBAL COMPLETO
+   ============================================================ */
+function playTopGlobalAll() {
+    let promises = TOP_GLOBAL.map(item =>
+        fetch(`/api/to_saavn?track=${encodeURIComponent(item.track)}&artist=${encodeURIComponent(item.artist)}`)
+            .then(r => r.json())
+    );
+
+    Promise.all(promises).then(results => {
+        queue = results
+            .filter(s => s.success)
+            .map(s => ({
+                title: s.title,
+                artist: s.artist,
+                url: s.mp3,
+                cover: s.cover
+            }));
+
+        if (!queue.length) {
+            alert("Nenhuma música encontrada no Saavn.");
+            return;
+        }
+
+        loadSong(0);
+    });
+}
+</script>
+
+</body>
+</html>

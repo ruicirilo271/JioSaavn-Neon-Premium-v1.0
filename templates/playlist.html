@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Playlist</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <a class="back" href="/">⬅ Voltar</a>
+
+    <!-- Capa + título -->
+    <div class="album-header">
+        <img id="page-cover" class="album-cover-round">
+        <h1 id="page-title">Carregando…</h1>
+    </div>
+
+    <!-- Botão ouvir tudo -->
+    <div class="center">
+        <button class="play-all" onclick="playAll()">▶ OUVIR TUDO</button>
+    </div>
+
+    <!-- Lista de faixas -->
+    <ul id="tracks"></ul>
+
+</div>
+
+<!-- Player Spotify Neon Premium -->
+{% include 'spotify_player.html' %}
+
+<script>
+const ID = "{{ playlist_id }}";
+const API_URL = `/api/playlist/${ID}`;
+</script>
+
+<script src="/static/player.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Playlist</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+<div class="container">
+
+    <a href="/" class="back">⬅ Voltar</a>
+
+    <h1 id="playlist-name">Carregando...</h1>
+    <img id="playlist-cover" class="album-cover-large">
+
+    <h2>Músicas</h2>
+    <ul id="tracks"></ul>
+
+    <div class="controls">
+        <button onclick="prevSong()">⏮ Anterior</button>
+        <button onclick="nextSong()">⏭ Seguinte</button>
+    </div>
+
+    <audio id="player" controls autoplay></audio>
+
+</div>
+
+<script>
+const playlistId = "{{ playlist_id }}";
+const apiURL = `/api/playlist/${playlistId}`;
+
+let queue = [];
+let current = 0;
+const player = document.getElementById("player");
+
+async function loadPlaylist() {
+    const res = await fetch(apiURL);
+    const data = await res.json();
+    const playlist = data.data;
+
+    document.getElementById("playlist-name").textContent = playlist.name;
+
+    const cover =
+        playlist.image?.[2]?.url ||
+        playlist.image?.[1]?.url ||
+        playlist.image?.[0]?.url;
+
+    document.getElementById("playlist-cover").src = cover;
+
+    queue = playlist.songs;
+
+    const trackList = document.getElementById("tracks");
+    trackList.innerHTML = "";
+
+    queue.forEach((song, index) => {
+        const li = document.createElement("li");
+        li.className = "track";
+
+        li.innerHTML = `
+            <strong>${song.name}</strong><br>
+            <button onclick="playIndex(${index})">▶ Ouvir</button>
+        `;
+
+        trackList.appendChild(li);
+    });
+
+    playIndex(0);
+}
+
+function playIndex(i) {
+    current = i;
+    const url = queue[current].downloadUrl[4].url;
+    player.src = url;
+    player.play();
+    highlightCurrent();
+}
+
+function highlightCurrent() {
+    const items = document.querySelectorAll("#tracks .track");
+    items.forEach((li, idx) => {
+        li.style.background = idx === current ? "#003566" : "#001d3d";
+        li.style.border = idx === current ? "1px solid #00eaff" : "1px solid #000";
+    });
+}
+
+player.addEventListener("ended", () => {
+    if (current < queue.length - 1) {
+        playIndex(current + 1);
+    }
+});
+
+function nextSong() {
+    if (current < queue.length - 1) playIndex(current + 1);
+}
+
+function prevSong() {
+    if (current > 0) playIndex(current - 1);
+}
+
+loadPlaylist();
+</script>
+
+</body>
+</html>
+
